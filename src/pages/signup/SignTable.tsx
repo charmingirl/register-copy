@@ -16,7 +16,7 @@ interface DataType {
 
 
 const SignupTable: React.FC = () => {
-    const storageData = window.localStorage.getItem('signList') ? JSON.parse(window.localStorage.getItem('signList') || '') : []
+    const storageData = window.sessionStorage.getItem('signList') ? JSON.parse(window.sessionStorage.getItem('signList') || '') : []
     const navigate = useNavigate();
     const [data, setData] = useState< DataType[]>(storageData || []);
 
@@ -29,7 +29,7 @@ const handleAdd = () => {
   const handleDelete = (id: string) => {
     const newArr = data.filter((item) => item.id !== id);
     setData(newArr);
-    window.localStorage.setItem("signList", JSON.stringify(newArr));
+    window.sessionStorage.setItem("signList", JSON.stringify(newArr));
   };
   // 编辑
   const handleEdit = (id: string) => {

@@ -53,11 +53,11 @@ const SignupForm: React.FC = () => {
       data = editFun(dataList, newData);
       console.log("data-----", data);
     } else {
-      const arr = window.localStorage.getItem("signList");
+      const arr = window.sessionStorage.getItem("signList");
       data = arr ? JSON.parse(arr) : [];
       data.push(newData);
     }
-    window.localStorage.setItem("signList", JSON.stringify(data));
+    window.sessionStorage.setItem("signList", JSON.stringify(data));
     navigate("/");
   };
   // 修改注册信息
@@ -87,7 +87,7 @@ const SignupForm: React.FC = () => {
     const id = searchParams.get("id") || "";
     if (id) {
       setId(id)
-      const arr = JSON.parse(window.localStorage.getItem('signList') || '')
+      const arr = JSON.parse(window.sessionStorage.getItem('signList') || '')
       setDataList(arr)
       const curData = arr.filter((item:DataType) =>item?.id == id)
       form.setFieldsValue(curData[0])
