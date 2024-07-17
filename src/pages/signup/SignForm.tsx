@@ -1,17 +1,9 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import {
-  Button,
-  Form,
-  Input,
-  Flex,
-  Select,
-} from 'antd';
+import { Button, Form, Input, Flex, Select } from "antd";
 
 const { Option } = Select;
-
 
 const formItemLayout = {
   labelCol: {
@@ -53,33 +45,31 @@ const SignupForm: React.FC = () => {
   const [dataList, setDataList] = useState<DataType[]>([])
 
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    const newData = { ...values, id: Math.random() }
-        let data: DataType[] = []
+    // console.log('Received values of form: ', values);
+    const newData = { ...values, id: Math.random() };
+    let data: DataType[] = [];
     if (id) {
-      newData.id = id
-      data = editFun(dataList, newData)
-      console.log('data-----',data);
-      
+      newData.id = id;
+      data = editFun(dataList, newData);
+      console.log("data-----", data);
     } else {
-       
-    const arr = window.localStorage.getItem('signList')
-       data= arr ? JSON.parse(arr): []
-    data.push(newData)
+      const arr = window.localStorage.getItem("signList");
+      data = arr ? JSON.parse(arr) : [];
+      data.push(newData);
     }
-    window.localStorage.setItem('signList', JSON.stringify(data))
-    navigate('/')
+    window.localStorage.setItem("signList", JSON.stringify(data));
+    navigate("/");
   };
   // 修改注册信息
   const editFun = (arr: DataType[], obj: any) => {
-    console.log('editFun',arr,'--',obj);
-    const index = arr.findIndex(item => item.id == obj.id)
+    console.log("editFun", arr, "--", obj);
+    const index = arr.findIndex((item) => item.id == obj.id);
     if (index !== -1) {
-      arr.splice(index, 1, obj)
-      return arr
+      arr.splice(index, 1, obj);
+      return arr;
     }
-    return []
-  }
+    return [];
+  };
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -90,12 +80,11 @@ const SignupForm: React.FC = () => {
     </Form.Item>
   );
 
-
   useEffect(() => {
     /* 判断跳转链接是否有id
     const id = searchParams.get('id');
     */
-    const id = searchParams.get('id') || '';    
+    const id = searchParams.get("id") || "";
     if (id) {
       setId(id)
       const arr = JSON.parse(window.localStorage.getItem('signList') || '')
