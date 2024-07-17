@@ -16,10 +16,10 @@ interface DataType {
 }
 
 
-
 const SignupTable: React.FC = () => {
+    const storageData = window.localStorage.getItem('signList') ? JSON.parse(window.localStorage.getItem('signList') || '') : []
     const navigate = useNavigate();
-    const [data, setData] = useState< DataType[]>(JSON.parse(window.localStorage.getItem('signList')||'') || []);
+    const [data, setData] = useState< DataType[]>(storageData || []);
 
     // 新增注册
 const handleAdd = () => {
@@ -84,7 +84,7 @@ return (
         <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
         注册用户
       </Button>
-  <Table columns={columns} dataSource={data} scroll={{ x: 1500, y: 300 }} />
+  <Table columns={columns} rowKey={record=>record.id} dataSource={data} scroll={{ x: 1500, y: 300 }} />
 
     </>);
 } 

@@ -47,10 +47,10 @@ interface DataType {
 }
 const SignupForm: React.FC = () => {
   const [form] = Form.useForm();
-   const navigate = useNavigate();
-const [searchParams] = useSearchParams();
-       const [id, setId] = useState<string>('')
-       const [dataList, setDataList] = useState<DataType[]>([])
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [id, setId] = useState<string>('')
+  const [dataList, setDataList] = useState<DataType[]>([])
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
@@ -102,114 +102,118 @@ const [searchParams] = useSearchParams();
       setDataList(arr)
       const curData = arr.filter((item:DataType) =>item?.id == id)
       form.setFieldsValue(curData[0])
+      console.log('-----------');
+      
     }
-},[id])
+},[])
 
   return (
-    <Form
-      {...formItemLayout}
-      form={form}
-      name="register"
-      onFinish={onFinish}
-      initialValues={{ residence: ['zhejiang', 'hangzhou', 'xihu'], prefix: '86' }}
-      style={{ maxWidth: 600 }}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="email"
-        label="邮箱"
-        rules={[
-          {
-            type: 'email',
-            message: '请输入有效邮箱',
-          },
-          {
-            required: true,
-            message: '请输入邮箱',
-          },
-        ]}
+    <>
+      <p >{id?`编辑` : `注册`}用户</p>
+      <Form
+        {...formItemLayout}
+        form={form}
+        name="register"
+        onFinish={onFinish}
+        style={{ maxWidth: 600 }}
+        scrollToFirstError
       >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        name="password"
-        label="密码"
-        rules={[
-          {
-            required: true,
-            message: '请输入密码',
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        name="confirm"
-        label="确认密码"
-        dependencies={['password']}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: '请确认新密码',
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('与新密码不一致'));
+        <Form.Item
+          name="email"
+          label="邮箱"
+          rules={[
+            {
+              type: 'email',
+              message: '请输入有效邮箱',
             },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+            {
+              required: true,
+              message: '请输入邮箱',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item
-        name="nickname"
-        label="昵称"
-        rules={[{ required: true, message: '请输入昵称', whitespace: true }]}
-      >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          name="password"
+          label="密码"
+          rules={[
+            {
+              required: true,
+              message: '请输入密码',
+            },
+          ]}
+          hasFeedback
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          name="confirm"
+          label="确认密码"
+          dependencies={['password']}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: '请确认新密码',
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('与新密码不一致'));
+              },
+            }),
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          name="nickname"
+          label="昵称"
+          rules={[{ required: true, message: '请输入昵称', whitespace: true }]}
+        >
+          <Input />
+        </Form.Item>
 
 
 
-      <Form.Item
-        name="phone"
-        label="手机号"
-        rules={[{ required: true, message: '请输入手机号' },{ pattern:new RegExp(/^1(3|4|5|6|7|8|9)\d{9}$/, "g"), message: '请输入正确格式手机号' }]}
-      >
-        <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-      </Form.Item>
+        <Form.Item
+          name="phone"
+          label="手机号"
+          rules={[{ required: true, message: '请输入手机号' },{ pattern:new RegExp(/^1(3|4|5|6|7|8|9)\d{9}$/, "g"), message: '请输入正确格式手机号' }]}
+        >
+          <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+        </Form.Item>
 
-      <Form.Item
-        name="gender"
-        label="性别"
-        rules={[{ required: true, message: '请选择性别' }]}
-      >
-        <Select placeholder="请选择性别">
-          <Option value="男">男</Option>
-          <Option value="女">女</Option>
-          <Option value="其他">其他</Option>
-        </Select>
-      </Form.Item>
+        <Form.Item
+          name="gender"
+          label="性别"
+          rules={[{ required: true, message: '请选择性别' }]}
+        >
+          <Select placeholder="请选择性别">
+            <Option value="男">男</Option>
+            <Option value="女">女</Option>
+            <Option value="其他">其他</Option>
+          </Select>
+        </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
-        <Flex gap="small">
-        <Button type="primary" htmlType="submit">
-          注册
-        </Button>
-         <Button danger onClick={() => form.resetFields()}>
-            重置
+        <Form.Item {...tailFormItemLayout}>
+          <Flex gap="small">
+          <Button type="primary" htmlType="submit">
+            {id ? `编辑` : `注册`}
           </Button>
-          </Flex>
-      </Form.Item>
-    </Form>
+          <Button danger onClick={() => form.resetFields()}>
+              重置
+            </Button>
+            </Flex>
+        </Form.Item>
+        </Form>
+      </>
   );
 };
 
